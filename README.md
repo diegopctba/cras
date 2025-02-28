@@ -1,8 +1,11 @@
 ##Pré-requisitos
 
 Maven
+
 Java 17+
+
 H2 Embedded
+
 Postman
 
 ## Executando a aplicação
