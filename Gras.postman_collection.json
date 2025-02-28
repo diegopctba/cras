@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "0d87582b-4fc1-4e75-bc5c-a180c07f36c8",
+		"name": "Gras",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1669840",
+		"_collection_link": "https://dark-equinox-997933.postman.co/workspace/Diego~72cfa7f3-32a5-4d20-9343-7e43dff6e7a8/collection/1669840-0d87582b-4fc1-4e75-bc5c-a180c07f36c8?action=share&source=collection_link&creator=1669840"
+	},
+	"item": [
+		{
+			"name": "checklife",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get awards",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movies/awards",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies",
+						"awards"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
