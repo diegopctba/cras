@@ -2,11 +2,12 @@ package br.com.diego.gras.batch;
 
 import br.com.diego.gras.repository.Movie;
 import br.com.diego.gras.repository.MovieRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.FlatFileParseException;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,24 +16,21 @@ import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
 
 @Configuration
 public class ImportMovies {
 
+    private static final Logger logger = LoggerFactory.getLogger(ImportMovies.class);
+
+    private static final String filePath = "Movielist.csv";
+
     public static final String[] COLUMN_NAMES = {"year", "title", "studios", "producers", "winner"};
 
-    @Value("${moviesList}")
-    public String filePath;
-
-    @Bean
+     @Bean
     CommandLineRunner initDatabase(MovieRepository repository) {
 
         return args -> {
-            Instant start = Instant.now();
             FlatFileItemReader<Movie> reader = readCSV();
             reader.open(new ExecutionContext());
             Movie movie = null;
@@ -44,21 +42,19 @@ public class ImportMovies {
                         repository.save(movie);
                     }
                 } catch (FlatFileParseException ex) {
-                    ex.printStackTrace();
+                    logger.error(ex.getMessage(), ex);
                 }
 
             } while (movie != null);
 
-            long qtd = repository.count();
-            Instant end = Instant.now();
-            long time = Duration.between(start, end).toMillis();
         };
     }
 
-    private FlatFileItemReader<Movie> readCSV() throws MalformedURLException, IOException {
+    private FlatFileItemReader<Movie> readCSV() throws IOException {
 
         File tempFile = new File(filePath);
         if (!tempFile.exists()) {
+            logger.error("file not found");
             throw new IOException("file not found");
         }
 
